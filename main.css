@@ -1,0 +1,71 @@
+body {
+    background-color: aquamarine;
+}
+
+#board {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 80vw;
+    height: 90vh;
+    margin: auto;
+    font-family: "Comic Sans MS";
+    /* border: 1px solid black; */
+}
+
+#board > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+}
+
+#board > div > p {
+    font-size: xx-large;
+    width: 20px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+#board > div > .a {
+    color: red;
+}
+
+#board > div > .e {
+    color: orange;
+}
+
+#board > div > .i {
+    color: yellow;
+}
+
+#board > div > .o {
+    color: green;
+}
+
+#board > div > .u {
+    color: blue;
+}
+
+#board > div > .y {
+    color: violet;
+}
+
+.active {
+    background-color: rgba(250,0,0, 0.2);
+}
+
+@media screen and (min-width: 1000px) {
+    #board {
+        width: 75vw;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #board {
+        width: 95vw;
+        height: 97.5vh;
+    }
+}
