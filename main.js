@@ -75,6 +75,107 @@ const isAdjacent = () => {
     return false;
 }
 
+const clearHorizontal = () => {
+    let cleared = false;
+    
+    for (let i = 0; i < board.length; i++) {
+        let count = 1;
+
+        for (let j = 0; j < board.length-1; j++) {
+            if ((board[i][j] == board[i][j+1]) && (j+1 !== board.length-1)) {
+                count++;
+            } else {
+                if ((j+1 === board.length-1) && (board[i][j] == board[i][j+1])) { 
+                    count++; 
+                }
+
+                if (count >= 3 && board[i][j] !== '-') {
+                    for (let n = j; n > j - count; n--) {
+                        board[i][n] = "-";
+                    }
+
+                    cleared = true;
+                } 
+
+                count = 1;
+            }
+        }
+    }
+
+    return cleared;
+}
+
+const clearVerticle = () => {
+    let cleared = false;
+    
+    for (let i = 0; i < board.length; i++) {
+        let count = 1;
+
+        for (let j = 0; j < board.length-1; j++) {
+            if ((board[j][i] == board[j+1][i]) && (j+1 !== board.length-1)) {
+                count++;
+            } else {
+                if ((j+1 === board.length-1) && (board[j][i] == board[j+1][i])) { 
+                    count++; 
+                }
+
+                if (count >= 3 && board[j][i] !== '-') {
+                    for (let n = j; n > j - count; n--) {
+                        board[n][i] = "-";
+                    }
+
+                    cleared = true;
+                } 
+
+                count = 1;
+            }
+        }
+    }
+
+    return cleared;
+}
+
+const clearBoard = () => {
+    let h = clearHorizontal();
+    let v = clearVerticle();
+
+    return (h || v);
+}
+
+const incrementDown = () => {
+    let incremented = false;
+
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board.length-1; j++) {
+            if (board[j+1][i] === '-' && board[j][i] !== '-') {
+                for (let n = j; n >= 0; n--) {
+                    board[n+1][i] = board[n][i];
+                }
+
+                board[0][i] = '-';
+                incremented = true;
+                break;
+            }
+
+        }
+
+    }
+
+    return incremented;
+}
+
+const shiftDown = incremented => {
+    if (incremented) {
+        incremented = incrementDown();
+        buildBoard(board);
+
+        setTimeout(() => {
+            shiftDown(incremented);
+        }, 500)
+    }
+}
+
+
 const handleClick = event => {
     let letter = event.target;
 
@@ -86,12 +187,11 @@ const handleClick = event => {
         letter2 = letter;
 
         if (isAdjacent()) {
-            letter.classList.add('active');
             current++;
         }
     }
 
-    if (current === 3) {
+    if (current >= 3) {
         handleMove();
         current = 1;
     }
@@ -104,7 +204,14 @@ const handleMove = () => {
     board[i][j] = board[i2][j2];
     board[i2][j2] = temp;
 
+    let cleared = clearBoard();
     buildBoard(board);
+    
+    if (cleared) {
+        setTimeout(() => {
+            shiftDown(true);
+        }, 500)
+    }
 }
 
 const newGame = size => {
