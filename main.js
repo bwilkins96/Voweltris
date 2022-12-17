@@ -59,6 +59,12 @@ const isAdjacent = () => {
     if (letter1 === letter2) { return false }
     let [i, j, i2, j2] = getId(letter1, letter2);
 
+    if (i !== i2) {
+        if (board[i][j] === '-' || board[i2][j2] === '-') {
+            return false;
+        }
+    }
+
     let cases = [
         i === i2+1 && j === j2,
         i === i2-1 && j === j2, 
@@ -164,14 +170,14 @@ const incrementDown = () => {
     return incremented;
 }
 
-const shiftDown = incremented => {
+const shiftDown = (incremented, timeout) => {
     if (incremented) {
         incremented = incrementDown();
         buildBoard(board);
 
         setTimeout(() => {
-            shiftDown(incremented);
-        }, 500)
+            shiftDown(incremented, timeout);
+        }, timeout);
     }
 }
 
@@ -207,17 +213,17 @@ const handleMove = () => {
     let cleared = clearBoard();
     buildBoard(board);
     
-    if (cleared) {
+    if (cleared || letter1.innerText === '-' || letter2.innerText === '-') {
         setTimeout(() => {
-            shiftDown(true);
-        }, 500)
+            shiftDown(true, 250);
+        }, 500);
     }
 }
 
 const newGame = size => {
     board = getBoard(size);
     score = 0;
-    buildBoard(board);
+    buildBoard(board);    
 }
 
 // game set-up and running
