@@ -180,6 +180,7 @@ const shiftDown = (incremented, timeout) => {
         }, timeout);
     } else {
         uncoverScreen();
+        saveGame();
     }
 }
 
@@ -242,9 +243,43 @@ const uncoverScreen = () => {
 const newGame = size => {
     board = getBoard(size);
     score = 0;
-    buildBoard(board);    
+    buildBoard(board);
+    saveGame();    
+}
+
+const saveGame = () => {
+    localStorage.setItem('board', board);
+    localStorage.setItem('boardSize', board.length);
+}
+
+const restoreBoard = () => {
+    const boardValues = localStorage.getItem('board');
+    const size = localStorage.getItem('boardSize');
+
+    const boardValsArray = boardValues.split(',');
+    board = [];
+    
+    for (let i = 0; i < size; i++) {
+        let row = [];
+
+        for (let j = 0; j < size; j++) {
+            let idx = j + (i*12);
+            row.push(boardValsArray[idx]);
+        }
+
+        board.push(row);
+    }
+}
+
+const restoreGame = () => {
+    restoreBoard();
+    buildBoard(board);
 }
 
 // game set-up and running
 
-newGame(12);
+if (localStorage.getItem('boardSize')) {
+    restoreGame()
+} else {
+    newGame(12);
+}
