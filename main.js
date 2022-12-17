@@ -178,6 +178,8 @@ const shiftDown = (incremented, timeout) => {
         setTimeout(() => {
             shiftDown(incremented, timeout);
         }, timeout);
+    } else {
+        uncoverScreen();
     }
 }
 
@@ -194,6 +196,10 @@ const handleClick = event => {
 
         if (isAdjacent()) {
             current++;
+        } else {
+            letter1.classList.remove('active');
+            letter1 = letter;
+            letter1.classList.add('active');
         }
     }
 
@@ -214,10 +220,23 @@ const handleMove = () => {
     buildBoard(board);
     
     if (cleared || letter1.innerText === '-' || letter2.innerText === '-') {
+        coverScreen();
+
         setTimeout(() => {
             shiftDown(true, 250);
         }, 500);
     }
+}
+
+const coverScreen = () => {
+    let cover = document.createElement('div');
+    cover.setAttribute('id', 'cover');
+    document.body.append(cover);
+}
+
+const uncoverScreen = () => {
+    let cover = document.getElementById('cover');
+    cover.remove();
 }
 
 const newGame = size => {
