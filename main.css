@@ -82,4 +82,10 @@ body {
         width: 95vw;
         height: 97.5vh;
     }
+
+    #newGame {
+        bottom: 97vh;
+        left: 0;
+        font-size: x-small;
+    }
 }

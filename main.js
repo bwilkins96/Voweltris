@@ -175,6 +175,7 @@ const incrementDown = () => {
 const shiftDown = (incremented, timeout) => {
     if (incremented) {
         incremented = incrementDown();
+        clearBoard();
         buildBoard(board);
 
         setTimeout(() => {
