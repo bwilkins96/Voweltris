@@ -84,8 +84,8 @@ body {
     }
 
     #newGame {
-        bottom: 97vh;
-        left: 0;
+        bottom: 96vh;
+        left: 0.5vh;
         font-size: x-small;
     }
 }
