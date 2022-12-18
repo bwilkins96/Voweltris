@@ -26,6 +26,7 @@ const getBoard = size => {
 const buildBoard = board => {
     const htmlBoard = document.getElementById("board");
     htmlBoard.innerHTML = "";
+    updateScore();
 
     for (let i = 0; i < board.length; i++) {
         let htmlRow = document.createElement('div');
@@ -104,6 +105,7 @@ const clearHorizontal = () => {
                 if (count >= 3 && board[i][j] !== '-') {
                     for (let n = j; n > j - count; n--) {
                         board[i][n] = "-";
+                        score += 1000;
                     }
 
                     cleared = true;
@@ -135,6 +137,7 @@ const clearVerticle = () => {
                 if (count >= 3 && board[j][i] !== '-') {
                     for (let n = j; n > j - count; n--) {
                         board[n][i] = "-";
+                        score += 1000;
                     }
 
                     cleared = true;
@@ -249,6 +252,11 @@ const uncoverScreen = () => {
     cover.remove();
 }
 
+const updateScore = () => {
+    let scoreElement = document.getElementById('score');
+    scoreElement.innerText = `Score: ${score}`;
+}
+
 const newGame = size => {
     board = getBoard(size);
     score = 0;
@@ -259,6 +267,7 @@ const newGame = size => {
 const saveGame = () => {
     localStorage.setItem('board', board);
     localStorage.setItem('boardSize', board.length);
+    localStorage.setItem('score', score);
 }
 
 const restoreBoard = () => {
@@ -281,6 +290,8 @@ const restoreBoard = () => {
 }
 
 const restoreGame = () => {
+    score = Number(localStorage.getItem('score'));
+    updateScore();
     restoreBoard();
     buildBoard(board);
 }
