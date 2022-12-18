@@ -27,7 +27,7 @@ const buildBoard = board => {
     const htmlBoard = document.getElementById("board");
     htmlBoard.innerHTML = "";
     
-    if (score > 0) { updateScore() }
+    updateScore();
 
     for (let i = 0; i < board.length; i++) {
         let htmlRow = document.createElement('div');
@@ -257,7 +257,11 @@ const updateScore = () => {
     let scoreElement = document.getElementById('score');
     let previousScore = Number(localStorage.getItem('score'));
 
-    scoreElement.innerText = `Score: ${score} (+${score - previousScore})`;
+    if (score > 0) {
+        scoreElement.innerText = `Score: ${score} (+${score - previousScore})`;
+    } else {
+        scoreElement.innerText = `Score: ${score}`;
+    }
 }
 
 const newGame = size => {
@@ -294,11 +298,25 @@ const restoreBoard = () => {
 
 const restoreGame = () => {
     score = Number(localStorage.getItem('score'));
-    if (score > 0) { updateScore() }
+    updateScore();
     restoreBoard();
     buildBoard(board);
 }
 
+// update background
+
+const changeBackground = () => {
+    let body = document.body;
+
+    if (body.classList.contains('background1')) {
+        body.classList.remove('background1');
+        body.classList.add('background2');
+    } else {
+        body.classList.remove('background2');
+        body.classList.add('background1');
+    }
+}
+ 
 // game set-up and running
 
 if (localStorage.getItem('boardSize')) {
@@ -309,5 +327,6 @@ if (localStorage.getItem('boardSize')) {
 
 let newGameButton = document.getElementById('newGame');
 newGameButton.addEventListener('click', () => {
+    changeBackground();
     newGame(12);
 });
