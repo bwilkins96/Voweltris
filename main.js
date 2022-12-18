@@ -93,6 +93,7 @@ const clearHorizontal = () => {
             } else {
                 if ((j+1 === board.length-1) && (board[i][j] == board[i][j+1])) { 
                     count++; 
+                    j++;
                 }
 
                 if (count >= 3 && board[i][j] !== '-') {
@@ -122,7 +123,8 @@ const clearVerticle = () => {
                 count++;
             } else {
                 if ((j+1 === board.length-1) && (board[j][i] == board[j+1][i])) { 
-                    count++; 
+                    count++;
+                    j++; 
                 }
 
                 if (count >= 3 && board[j][i] !== '-') {
@@ -283,3 +285,8 @@ if (localStorage.getItem('boardSize')) {
 } else {
     newGame(12);
 }
+
+let newGameButton = document.getElementById('newGame');
+newGameButton.addEventListener('click', () => {
+    newGame(12);
+});

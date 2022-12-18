@@ -65,6 +65,12 @@ body {
     width: 98.5vw;
 }
 
+#newGame {
+    position: absolute;
+    bottom: 1vh;
+    left: 1vw;
+}
+
 @media screen and (min-width: 1000px) {
     #board {
         width: 75vw;
