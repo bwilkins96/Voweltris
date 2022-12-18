@@ -33,9 +33,14 @@ const buildBoard = board => {
         for (let j = 0; j < board.length; j++) {
             let piece = document.createElement('p');
             piece.innerText = board[i][j];
-            piece.classList.add(`${board[i][j]}`);
             piece.setAttribute('id', `${i},${j}`);
             
+            if (board[i][j] === '-') {
+                piece.classList.add('empty');
+            } else {
+                piece.classList.add(`${board[i][j]}`);
+            }
+
             piece.addEventListener('click', handleClick);
             
             htmlRow.append(piece);
@@ -222,6 +227,7 @@ const handleMove = () => {
 
     let cleared = clearBoard();
     buildBoard(board);
+
     
     if (cleared || letter1.innerText === '-' || letter2.innerText === '-') {
         coverScreen();

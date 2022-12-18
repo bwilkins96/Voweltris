@@ -23,7 +23,7 @@ body {
 
 #board > div > p {
     font-size: xx-large;
-    width: 20px;
+    width: 8vw;
     text-align: center;
     padding: 0;
     margin: 0;
@@ -51,6 +51,10 @@ body {
 
 #board > div > .y {
     color: violet;
+}
+
+#board > div > .empty {
+    color: rgba(0,0,0,0);
 }
 
 .active {
