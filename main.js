@@ -222,6 +222,7 @@ const handleClick = event => {
         if (isAdjacent()) {
             current++;
         } else {
+            if (letter.innerText === '-') { return }
             letter1.classList.remove('active');
             letter1 = letter;
             letter1.classList.add('active');
