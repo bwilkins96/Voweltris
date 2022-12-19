@@ -2,6 +2,7 @@
 
 let board, score, letter1, letter2;
 let current = 1;
+let background = 1;
 
 // game logic
 
@@ -184,12 +185,22 @@ const incrementDown = () => {
 const shiftDown = (incremented, timeout) => {
     if (incremented) {
         incremented = incrementDown();
-        clearBoard();
         buildBoard(board);
+        let cleared = clearBoard();
 
-        setTimeout(() => {
-            shiftDown(incremented, timeout);
-        }, timeout);
+        if (cleared) {
+            setTimeout(() => {
+                buildBoard(board);
+                
+                setTimeout(() => {
+                    shiftDown(incremented, timeout);
+                }, timeout);
+            }, timeout);
+        } else {
+            setTimeout(() => {
+                shiftDown(incremented, timeout);
+            }, timeout);
+        }
     } else {
         uncoverScreen();
         saveGame();
@@ -229,16 +240,27 @@ const handleMove = () => {
     board[i][j] = board[i2][j2];
     board[i2][j2] = temp;
 
-    let cleared = clearBoard();
     buildBoard(board);
+    let cleared = clearBoard();
 
     
     if (cleared || letter1.innerText === '-' || letter2.innerText === '-') {
         coverScreen();
+        let timeout = 250;
 
-        setTimeout(() => {
-            shiftDown(true, 250);
-        }, 500);
+        if (cleared) {
+            setTimeout(() => {
+                buildBoard(board);
+
+                setTimeout(() => {
+                    shiftDown(true, timeout);
+                }, timeout);
+            }, timeout);
+        } else {
+            setTimeout(() => {
+                shiftDown(true, timeout);
+            }, timeout);
+        }
     }
 }
 
@@ -275,6 +297,7 @@ const saveGame = () => {
     localStorage.setItem('board', board);
     localStorage.setItem('boardSize', board.length);
     localStorage.setItem('score', score);
+    localStorage.setItem('background', background);
 }
 
 const restoreBoard = () => {
@@ -297,8 +320,14 @@ const restoreBoard = () => {
 }
 
 const restoreGame = () => {
+    background = Number(localStorage.getItem('background'));
+    if (background === 2) {
+        changeBackground();
+    }
+
     score = Number(localStorage.getItem('score'));
     updateScore();
+
     restoreBoard();
     buildBoard(board);
 }
@@ -311,9 +340,11 @@ const changeBackground = () => {
     if (body.classList.contains('background1')) {
         body.classList.remove('background1');
         body.classList.add('background2');
+        background = 2;
     } else {
         body.classList.remove('background2');
         body.classList.add('background1');
+        background = 1;
     }
 }
  
