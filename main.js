@@ -212,6 +212,7 @@ const handleClick = event => {
     let letter = event.target;
 
     if (current === 1) {
+        if (letter.innerText === '-') { return }
         letter1 = letter;
         letter.classList.add('active');
         current++;
