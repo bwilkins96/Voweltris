@@ -27,8 +27,6 @@ const getBoard = size => {
 const buildBoard = board => {
     const htmlBoard = document.getElementById("board");
     htmlBoard.innerHTML = "";
-    
-    updateScore();
 
     for (let i = 0; i < board.length; i++) {
         let htmlRow = document.createElement('div');
@@ -108,6 +106,9 @@ const clearHorizontal = () => {
                     for (let n = j; n > j - count; n--) {
                         board[i][n] = "-";
                         score += (count*100);
+
+                        let boardElement = document.getElementById(`${i},${n}`);
+                        boardElement.innerText = '-';
                     }
 
                     cleared = true;
@@ -140,6 +141,9 @@ const clearVerticle = () => {
                     for (let n = j; n > j - count; n--) {
                         board[n][i] = "-";
                         score += (count*100);
+
+                        let boardElement = document.getElementById(`${n},${i}`);
+                        boardElement.innerText = '-';
                     }
 
                     cleared = true;
@@ -157,6 +161,7 @@ const clearBoard = () => {
     let h = clearHorizontal();
     let v = clearVerticle();
 
+    updateScore();
     return (h || v);
 }
 
