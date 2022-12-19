@@ -296,6 +296,7 @@ const updateScore = () => {
 const newGame = size => {
     board = getBoard(size);
     score = 0;
+    updateScore();
     buildBoard(board);
     saveGame();    
 }
